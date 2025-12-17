@@ -55,4 +55,27 @@ p {
 }
 
 .mandala1 { width: 300px; height: 300px; top: -100px; left: -100px; }
-.mandala2 { width: 250px; height: 250px; bottom:
+.mandala2 { width: 250px; height: 250px; bottom: -80px; right: -80px; animation-duration: 30s; }
+.mandala3 { width: 200px; height: 200px; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-duration: 40s; }
+
+/* Animation */
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+</head>
+
+<body>
+  <!-- Mandala Circles -->
+  <div class="mandala mandala1"></div>
+  <div class="mandala mandala2"></div>
+  <div class="mandala mandala3"></div>
+
+  <!-- Container -->
+  <div class="container">
+    <h1>Thank You Kindly</h1>
+    <p>for your reply. We are excited to celebrate together! ✨</p>
+  </div>
+</body>
+</html>
