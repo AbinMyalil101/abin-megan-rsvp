@@ -170,13 +170,14 @@ document.getElementById("rsvpForm").addEventListener("submit", function(e) {
   submitButton.disabled = true;
   submitButton.innerText = "Submitting...";
 
-  fetch("https://script.google.com/macros/s/AKfycbz-9Lmfh1u0D5xdQRGbb7R3sXGoLlWyIoR8jaZ9QHNl8TaWerQqFlt-i4htQYzUS1B7Yg/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbwFZmZUBnopHjBYuqPIiXdNQY670oZcalAkYL9_zuXY8H63I6xwa2kpTqYNfHeEfj3S1A/exec", {
     method: "POST",
     body: new FormData(this)
   })
   .then(response => response.json())
   .then(data => {
     if (data.status === 'success') {
+      // Redirect to Thank You page after successful submission
       window.location.href = "thankyou.html";
     } else {
       throw new Error(data.message || "Submission failed");
