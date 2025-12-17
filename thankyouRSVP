@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thank You!</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+/* Body */
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  background: #0f2d1f; /* forest green */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Container Card */
+.container {
+  background: #f9f6ef; /* ivory */
+  padding: 40px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+  position: relative;
+  z-index: 2;
+  max-width: 400px;
+}
+
+/* Heading & Text */
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  color: #b89b3f; /* gold accent */
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+p {
+  font-size: 16px;
+  color: #333;
+}
+
+/* Mandala Background Circles */
+.mandala {
+  position: absolute;
+  border: 4px solid #b89b3f;
+  border-radius: 50%;
+  animation: rotate 20s linear infinite;
+  opacity: 0.2;
+}
+
+.mandala1 { width: 300px; height: 300px; top: -100px; left: -100px; }
+.mandala2 { width: 250px; height: 250px; bottom:
