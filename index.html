@@ -48,47 +48,4 @@ button:hover { background:#b8943f; }
       <option>Yes</option>
       <option>No</option>
     </select>
-    <textarea name="entry.123456789" placeholder="Dietary Restrictions"></textarea>
-    <textarea name="entry.987654321" placeholder="Special Accommodations"></textarea>
-
-    <button type="submit">Submit RSVP</button>
-    <div id="thankYouMessage">Thank you kindly! Your RSVP has been received. ✨</div>
-  </form>
-
-</div>
-
-<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="submitted();"></iframe>
-
-<script>
-const PASSWORD = "AbinMegan2026";
-
-function checkPassword() {
-  if(document.getElementById("password").value === PASSWORD){
-    document.getElementById("passwordSection").classList.add("hidden");
-    document.getElementById("rsvpForm").classList.remove("hidden");
-  } else { alert("Incorrect password"); }
-}
-
-// Countdown Timer
-const eventDate = new Date("March 28, 2026 19:00:00").getTime();
-setInterval(() => {
-  const now = new Date().getTime();
-  const distance = eventDate - now;
-  if(distance<0){ document.getElementById("countdown").innerHTML="The celebration has begun ✨"; return; }
-  const days = Math.floor(distance/(1000*60*60*24));
-  const hours = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
-  const minutes = Math.floor((distance%(1000*60*60))/(1000*60));
-  document.getElementById("countdown").innerHTML=`Celebrating in ${days} days, ${hours} hours, and ${minutes} minutes`;
-},1000);
-
-// Show Thank You Message after submit
-function submitted() {
-  const form = document.getElementById("rsvpForm");
-  if(form.classList.contains("hidden")) return;
-  form.querySelector("button").style.display="none";
-  document.getElementById("thankYouMessage").style.display="block";
-}
-</script>
-
-</body>
-</html>
+    <textarea name="entry.43763309" placeholder="Dietary Restrictions"></textarea>
