@@ -6,64 +6,73 @@
 <title>Abin & Megan Proposal Party RSVP</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
 <style>
-body { margin:0; font-family:'Montserrat',sans-serif; background:#0f2d1f; display:flex; justify-content:center; align-items:center; height:100vh; }
+body { margin:0; font-family:'Montserrat',sans-serif; background:#0f2d1f; display:flex; justify-content:center; align-items:center; min-height:100vh; }
 .container { background:#f9f6ef; padding:36px; max-width:700px; width:90%; border-radius:14px; text-align:center; box-shadow:0 12px 30px rgba(0,0,0,0.35); }
 h1 { font-family:'Playfair Display',serif; font-weight:600; color:#1f3d2b; }
+p { color:#333; font-size:14px; }
 .countdown { font-size:13px; margin:16px 0; color:#1f3d2b; font-weight:500; }
+input, button { padding:12px; border-radius:6px; width:100%; margin:8px 0; font-size:14px; }
+button { background:#c9a24d; border:none; font-weight:bold; cursor:pointer; }
+button:hover { background:#b8943f; }
+.hidden { display:none; }
 </style>
 </head>
 <body>
 
 <div class="container">
-
   <!-- PASSWORD SECTION -->
   <div id="passwordSection">
     <h1>Enter Invitation Password</h1>
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="checkPassword()">Enter</button>
+    <input type="password" id="passwordInput" placeholder="Password">
+    <button id="passwordButton">Enter</button>
   </div>
 
-  <!-- Embedded Google Form -->
+  <!-- EMBEDDED FORM -->
   <div id="formSection" class="hidden">
     <h1>Abin & Megan’s Proposal Party</h1>
     <p class="countdown" id="countdown"></p>
 
-    <!-- Paste your Google Form embed link here -->
-    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSf6FlvoTaSTTo1yajNdHxaHHC4Q5tPkop2WrerS5H3Ou2LeVg/viewform?embedded=true"
-            width="100%" height="1200" frameborder="0" marginheight="0" marginwidth="0">
-      Loading…
-    </iframe>
+    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSf6FlvoTaSTTo1yajNdHxaHHC4Q5tPkop2WrerS5H3Ou2LeVg/viewform?embedded=true" 
+            width="100%" height="1200" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
   </div>
-
 </div>
 
 <script>
-const PASSWORD = "AbinMegan2026";
+document.addEventListener("DOMContentLoaded", function() {
+  const PASSWORD = "AbinMegan2026";
+  const passwordInput = document.getElementById("passwordInput");
+  const passwordButton = document.getElementById("passwordButton");
+  const passwordSection = document.getElementById("passwordSection");
+  const formSection = document.getElementById("formSection");
 
-function checkPassword() {
-  if (document.getElementById("password").value === PASSWORD) {
-    document.getElementById("passwordSection").classList.add("hidden");
-    document.getElementById("formSection").classList.remove("hidden");
-  } else {
-    alert("Incorrect password");
-  }
-}
+  passwordButton.addEventListener("click", function() {
+    if(passwordInput.value === PASSWORD){
+      passwordSection.classList.add("hidden");
+      formSection.classList.remove("hidden");
+    } else {
+      alert("Incorrect password");
+      passwordInput.value = "";
+      passwordInput.focus();
+    }
+  });
 
-// Countdown Timer
-const eventDate = new Date("March 28, 2026 19:00:00").getTime();
-setInterval(() => {
-  const now = new Date().getTime();
-  const distance = eventDate - now;
-  if (distance < 0) {
-    document.getElementById("countdown").innerHTML = "The celebration has begun ✨";
-    return;
-  }
-  const days = Math.floor(distance/(1000*60*60*24));
-  const hours = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
-  const minutes = Math.floor((distance%(1000*60*60))/(1000*60));
-  document.getElementById("countdown").innerHTML =
-    `Celebrating in ${days} days, ${hours} hours, and ${minutes} minutes`;
-}, 1000);
+  // Countdown Timer
+  const eventDate = new Date("March 28, 2026 19:00:00").getTime();
+  const countdownEl = document.getElementById("countdown");
+
+  setInterval(() => {
+    const now = new Date().getTime();
+    const distance = eventDate - now;
+    if(distance < 0){
+      countdownEl.innerHTML = "The celebration has begun ✨";
+      return;
+    }
+    const days = Math.floor(distance / (1000*60*60*24));
+    const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+    const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+    countdownEl.innerHTML = `Celebrating in ${days} days, ${hours} hours, and ${minutes} minutes`;
+  },1000);
+});
 </script>
 
 </body>
