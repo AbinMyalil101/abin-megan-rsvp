@@ -126,12 +126,6 @@ button:hover {
     <button type="submit">Submit RSVP</button>
   </form>
 
-  <!-- THANK YOU -->
-  <div id="thankYou" class="hidden">
-    <h1>Thank You</h1>
-    <p>Your RSVP has been received.</p>
-  </div>
-
 </div>
 
 <script>
@@ -172,11 +166,20 @@ setInterval(() => {
 document.getElementById("rsvpForm").addEventListener("submit", function(e) {
   e.preventDefault();
 
+  const submitButton = this.querySelector("button[type='submit']");
+  submitButton.disabled = true;
+  submitButton.innerText = "Submitting...";
+
   fetch("https://script.google.com/macros/s/AKfycbzmxVfqgsu_uBL5AV-Wq89d96WDVdK6IQu479JoZSUas0A4Jmmb8W8Y_VGPSVSrwWNwBw/exec", {
     method: "POST",
     body: new FormData(this)
   }).then(() => {
-    window.location.href = "thankyou.html"; // Must match exact filename
+    // Redirect to Thank You page
+    window.location.href = "thankyou.html";
+  }).catch(() => {
+    alert("There was an error submitting your RSVP. Please try again.");
+    submitButton.disabled = false;
+    submitButton.innerText = "Submit RSVP";
   });
 });
 </script>
