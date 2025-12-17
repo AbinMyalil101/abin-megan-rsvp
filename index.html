@@ -6,15 +6,46 @@
 <title>Abin & Megan Proposal Party RSVP</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
 <style>
-body { margin:0; font-family:'Montserrat',sans-serif; background:#0f2d1f; display:flex; justify-content:center; align-items:center; min-height:100vh; }
-.container { background:#f9f6ef; padding:36px; max-width:700px; width:90%; border-radius:14px; text-align:center; box-shadow:0 12px 30px rgba(0,0,0,0.35); }
-h1 { font-family:'Playfair Display',serif; font-weight:600; color:#1f3d2b; }
-p { color:#333; font-size:14px; }
-.countdown { font-size:13px; margin:16px 0; color:#1f3d2b; font-weight:500; }
-input, button { padding:12px; border-radius:6px; width:100%; margin:8px 0; font-size:14px; }
-button { background:#c9a24d; border:none; font-weight:bold; cursor:pointer; }
-button:hover { background:#b8943f; }
-.hidden { display:none; }
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  background: #0f2d1f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+.container {
+  background: #f9f6ef;
+  padding: 36px;
+  max-width: 500px;
+  width: 90%;
+  border-radius: 14px;
+  text-align: center;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+}
+h1 { font-family: 'Playfair Display', serif; font-weight: 600; color: #1f3d2b; margin-bottom: 10px; }
+p { color: #333; font-size: 14px; }
+input, select, textarea, button {
+  width: 100%;
+  margin: 8px 0;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+}
+textarea { resize: none; }
+button {
+  background: #c9a24d;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  color: #1a1a1a;
+}
+button:hover { background: #b8943f; }
+.countdown { font-size: 13px; margin: 16px 0; color: #1f3d2b; font-weight: 500; }
+.hidden { display: none; }
+#thankYouMessage { display: none; font-size: 16px; color: #1f3d2b; margin-top: 16px; }
 </style>
 </head>
 <body>
@@ -27,13 +58,34 @@ button:hover { background:#b8943f; }
     <button id="passwordButton">Enter</button>
   </div>
 
-  <!-- EMBEDDED FORM -->
-  <div id="formSection" class="hidden">
+  <!-- CUSTOM RSVP FORM -->
+  <form id="rsvpForm" class="hidden">
     <h1>Abin & Megan’s Proposal Party</h1>
-    <p class="countdown" id="countdown"></p>
+    <p>March 28, 2026 • 7:00 PM<br>The Venue HTX</p>
 
-    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSf6FlvoTaSTTo1yajNdHxaHHC4Q5tPkop2WrerS5H3Ou2LeVg/viewform?embedded=true" 
-            width="100%" height="1200" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+    <div class="countdown" id="countdown"></div>
+
+    <input name="entry.732669746" placeholder="Full Name" required>
+    <select name="entry.298011724" required>
+      <option value="">Attendance</option>
+      <option>Joyfully attending</option>
+      <option>Regretfully decline</option>
+    </select>
+    <select name="entry.434755774">
+      <option value="">Will you be accompanying a plus one?</option>
+      <option>Yes</option>
+      <option>No</option>
+    </select>
+    <textarea name="entry.43763309" placeholder="Dietary Restrictions"></textarea>
+    <textarea name="entry.1245811517" placeholder="Special Accommodations"></textarea>
+
+    <button type="submit">Submit RSVP</button>
+  </form>
+
+  <!-- THEMED THANK YOU MESSAGE -->
+  <div id="thankYouMessage">
+    <h1>Thank You!</h1>
+    <p>Your RSVP has been received. We can’t wait to celebrate with you! ✨</p>
   </div>
 </div>
 
@@ -43,12 +95,14 @@ document.addEventListener("DOMContentLoaded", function() {
   const passwordInput = document.getElementById("passwordInput");
   const passwordButton = document.getElementById("passwordButton");
   const passwordSection = document.getElementById("passwordSection");
-  const formSection = document.getElementById("formSection");
+  const rsvpForm = document.getElementById("rsvpForm");
+  const thankYouMessage = document.getElementById("thankYouMessage");
 
+  // Password check
   passwordButton.addEventListener("click", function() {
     if(passwordInput.value === PASSWORD){
       passwordSection.classList.add("hidden");
-      formSection.classList.remove("hidden");
+      rsvpForm.classList.remove("hidden");
     } else {
       alert("Incorrect password");
       passwordInput.value = "";
@@ -56,10 +110,9 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
 
-  // Countdown Timer
+  // Countdown timer
   const eventDate = new Date("March 28, 2026 19:00:00").getTime();
   const countdownEl = document.getElementById("countdown");
-
   setInterval(() => {
     const now = new Date().getTime();
     const distance = eventDate - now;
@@ -72,6 +125,22 @@ document.addEventListener("DOMContentLoaded", function() {
     const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
     countdownEl.innerHTML = `Celebrating in ${days} days, ${hours} hours, and ${minutes} minutes`;
   },1000);
+
+  // Submit to Google Form
+  rsvpForm.addEventListener("submit", function(e){
+    e.preventDefault();
+    const formData = new FormData(rsvpForm);
+    fetch("https://docs.google.com/forms/d/e/1FAIpQLSf6FlvoTaSTTo1yajNdHxaHHC4Q5tPkop2WrerS5H3Ou2LeVg/formResponse", {
+      method: "POST",
+      body: formData,
+      mode: "no-cors"
+    }).then(() => {
+      rsvpForm.classList.add("hidden");
+      thankYouMessage.style.display = "block";
+    }).catch(() => {
+      alert("There was an error submitting your RSVP. Please try again.");
+    });
+  });
 });
 </script>
 
