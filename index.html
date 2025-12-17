@@ -85,4 +85,36 @@ document.addEventListener("DOMContentLoaded", function() {
   setInterval(() => {
     const now = new Date().getTime();
     const distance = eventDate - now;
-    if(distance <
+    if(distance < 0){
+      countdownEl.innerHTML = "The celebration has begun ✨";
+      return;
+    }
+    const days = Math.floor(distance/(1000*60*60*24));
+    const hours = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+    const minutes = Math.floor((distance%(1000*60*60))/(1000*60));
+    countdownEl.innerHTML = `Celebrating in ${days} days, ${hours} hours, and ${minutes} minutes`;
+  },1000);
+
+  // Submit to Apps Script
+  rsvpForm.addEventListener("submit", function(e){
+    e.preventDefault();
+    const formData = new FormData(rsvpForm);
+
+    // Updated Apps Script Web App URL
+    const scriptURL = "https://script.google.com/macros/s/AKfycbzJywsNLpccpRzFYyYDDXjZHrN7_-BFsYVFwiR0elycPHlhwvPaQ0jYoWYgfb--bnx1vg/exec";
+
+    fetch(scriptURL, { method: "POST", body: formData })
+      .then(response => response.text()) // parse as text to avoid JSON errors
+      .then(() => {
+          rsvpForm.classList.add("hidden");
+          thankYouMessage.style.display = "block";
+      })
+      .catch(() => {
+        alert("Error submitting RSVP. Try again.");
+      });
+  });
+});
+</script>
+
+</body>
+</html>
