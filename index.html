@@ -7,45 +7,64 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
 <style>
 body { margin:0; font-family:'Montserrat',sans-serif; background:#0f2d1f; display:flex; justify-content:center; align-items:center; height:100vh; }
-.container { background:#f9f6ef; padding:36px; max-width:420px; width:90%; border-radius:14px; text-align:center; box-shadow:0 12px 30px rgba(0,0,0,0.35); }
+.container { background:#f9f6ef; padding:36px; max-width:700px; width:90%; border-radius:14px; text-align:center; box-shadow:0 12px 30px rgba(0,0,0,0.35); }
 h1 { font-family:'Playfair Display',serif; font-weight:600; color:#1f3d2b; }
-p { color:#333; font-size:14px; }
-input, select, textarea, button { width:100%; margin:8px 0; padding:11px; border-radius:6px; font-size:14px; }
-button { background:#c9a24d; border:none; font-weight:bold; cursor:pointer; }
-button:hover { background:#b8943f; }
-.hidden { display:none; }
 .countdown { font-size:13px; margin:16px 0; color:#1f3d2b; font-weight:500; }
-#thankYouMessage { display:none; font-size:16px; color:#1f3d2b; margin-top:16px; }
 </style>
 </head>
 <body>
 
 <div class="container">
 
-  <!-- PASSWORD -->
+  <!-- PASSWORD SECTION -->
   <div id="passwordSection">
     <h1>Enter Invitation Password</h1>
     <input type="password" id="password" placeholder="Password">
     <button onclick="checkPassword()">Enter</button>
   </div>
 
-  <!-- RSVP FORM -->
-  <form id="rsvpForm" class="hidden" action="https://docs.google.com/forms/d/e/1FAIpQLSf6FlvoTaSTTo1yajNdHxaHHC4Q5tPkop2WrerS5H3Ou2LeVg/formResponse" method="POST" target="hidden_iframe">
+  <!-- Embedded Google Form -->
+  <div id="formSection" class="hidden">
     <h1>Abin & Megan’s Proposal Party</h1>
-    <p>March 28, 2026 • 7:00 PM<br>The Venue HTX</p>
+    <p class="countdown" id="countdown"></p>
 
-    <div class="countdown" id="countdown"></div>
+    <!-- Paste your Google Form embed link here -->
+    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSf6FlvoTaSTTo1yajNdHxaHHC4Q5tPkop2WrerS5H3Ou2LeVg/viewform?embedded=true"
+            width="100%" height="1200" frameborder="0" marginheight="0" marginwidth="0">
+      Loading…
+    </iframe>
+  </div>
 
-    <!-- Google Form fields -->
-    <input name="entry.732669746" placeholder="Full Name" required>
-    <select name="entry.298011724" required>
-      <option value="">Attendance</option>
-      <option>Joyfully attending</option>
-      <option>Regretfully decline</option>
-    </select>
-    <select name="entry.434755774">
-      <option value="">Will you be accompanying a plus one?</option>
-      <option>Yes</option>
-      <option>No</option>
-    </select>
-    <textarea name="entry.43763309" placeholder="Dietary Restrictions"></textarea>
+</div>
+
+<script>
+const PASSWORD = "AbinMegan2026";
+
+function checkPassword() {
+  if (document.getElementById("password").value === PASSWORD) {
+    document.getElementById("passwordSection").classList.add("hidden");
+    document.getElementById("formSection").classList.remove("hidden");
+  } else {
+    alert("Incorrect password");
+  }
+}
+
+// Countdown Timer
+const eventDate = new Date("March 28, 2026 19:00:00").getTime();
+setInterval(() => {
+  const now = new Date().getTime();
+  const distance = eventDate - now;
+  if (distance < 0) {
+    document.getElementById("countdown").innerHTML = "The celebration has begun ✨";
+    return;
+  }
+  const days = Math.floor(distance/(1000*60*60*24));
+  const hours = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+  const minutes = Math.floor((distance%(1000*60*60))/(1000*60));
+  document.getElementById("countdown").innerHTML =
+    `Celebrating in ${days} days, ${hours} hours, and ${minutes} minutes`;
+}, 1000);
+</script>
+
+</body>
+</html>
