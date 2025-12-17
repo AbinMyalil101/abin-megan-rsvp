@@ -170,16 +170,17 @@ document.getElementById("rsvpForm").addEventListener("submit", function(e) {
   submitButton.disabled = true;
   submitButton.innerText = "Submitting...";
 
-  fetch("https://script.google.com/macros/s/AKfycbzmxVfqgsu_uBL5AV-Wq89d96WDVdK6IQu479JoZSUas0A4Jmmb8W8Y_VGPSVSrwWNwBw/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbyc_EkmsPvbxlSZ4fryAU5bUqCki8UE3WXC9m8FfZy-gBuja2RZ_jt4LgMWTG8KokMJAA/exec", {
     method: "POST",
     body: new FormData(this)
   })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
+  .then(response => response.json())
+  .then(data => {
+    if (data.status === 'success') {
+      window.location.href = "thankyou.html";
+    } else {
+      throw new Error(data.message || "Submission failed");
     }
-    // Successfully submitted → redirect
-    window.location.href = "thankyou.html";
   })
   .catch(error => {
     console.error("Error submitting RSVP:", error);
