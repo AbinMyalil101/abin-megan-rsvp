@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abin & Megan Proposal Party RSVP</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  background: #0f2d1f; /* forest green */
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  background: #f9f6ef; /* soft ivory */
+  padding: 36px;
+  max-width: 420px;
+  width: 90%;
+  border-radius: 14px;
+  text-align: center;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  color: #1f3d2b;
+}
+
+p {
+  color: #333;
+  font-size: 14px;
+}
+
+input, select, textarea {
+  width: 100%;
+  margin: 8px 0;
+  padding: 11px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+textarea {
+  resize: none;
+}
+
+button {
+  width: 100%;
+  margin-top: 14px;
+  padding: 12px;
+  border-radius: 6px;
+  border: none;
+  font-size: 15px;
+  font-weight: bold;
+  background: #c9a24d; /* gold */
+  color: #1a1a1a;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #b8943f;
+}
+
+.hidden {
+  display: none;
+}
+
+.countdown {
+  font-size: 13px;
+  margin: 16px 0;
+  color: #1f3d2b;
+  font-weight: 500;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- PASSWORD SCREEN -->
+  <div id="passwordSection">
+    <h1>Enter Invitation Password</h1>
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="checkPassword()">Enter</button>
+  </div>
+
+  <!-- RSVP FORM -->
+  <form id="rsvpForm" class="hidden">
+    <h1>Abin & Megan’s Proposal Party</h1>
+    <p>
+      March 28, 2026 • 7:00 PM<br>
+      The Venue HTX
+    </p>
+
+    <div class="countdown" id="countdown"></div>
+
+    <input name="fullName" placeholder="Full Name" required>
+
+    <select name="attendance" required>
+      <option value="">Attendance</option>
+      <option>Joyfully attending</option>
+      <option>Regretfully decline</option>
+    </select>
+
+    <input type="number" name="guestCount" min="1" placeholder="Guest Count">
+
+    <select name="plusOne">
+      <option value="">Will you be accompanying a plus one?</option>
+      <option>Yes</option>
+      <option>No</option>
+    </select>
+
+    <textarea name="dietaryRestrictions" placeholder="Dietary Restrictions"></textarea>
+
+    <textarea name="specialAccommodations" placeholder="Special Accommodations"></textarea>
+
+    <button type="submit">Submit RSVP</button>
+  </form>
+
+  <!-- THANK YOU -->
+  <div id="thankYou" class="hidden">
+    <h1>Thank You</h1>
+    <p>Your RSVP has been received.</p>
+  </div>
+
+</div>
+
+<script>
+/* PASSWORD */
+const PASSWORD = "AbinMegan2026";
+
+function checkPassword() {
+  if (document.getElementById("password").value === PASSWORD) {
+    document.getElementById("passwordSection").classList.add("hidden");
+    document.getElementById("rsvpForm").classList.remove("hidden");
+  } else {
+    alert("Incorrect password");
+  }
+}
+
+/* COUNTDOWN TIMER */
+const eventDate = new Date("March 28, 2026 19:00:00").getTime();
+
+setInterval(() => {
+  const now = new Date().getTime();
+  const distance = eventDate - now;
+
+  if (distance < 0) {
+    document.getElementById("countdown").innerHTML =
+      "The celebration has begun ✨";
+    return;
+  }
+
+  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+  document.getElementById("countdown").innerHTML =
+    `Celebrating in ${days} days, ${hours} hours, and ${minutes} minutes`;
+}, 1000);
+
+/* GOOGLE SHEETS SUBMISSION */
+document.getElementById("rsvpForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  fetch("https://script.google.com/macros/s/AKfycbzmxVfqgsu_uBL5AV-Wq89d96WDVdK6IQu479JoZSUas0A4Jmmb8W8Y_VGPSVSrwWNwBw/exec", {
+    method: "POST",
+    body: new FormData(this)
+  }).then(() => {
+    document.getElementById("rsvpForm").classList.add("hidden");
+    document.getElementById("thankYou").classList.remove("hidden");
+  });
+});
+</script>
+
+</body>
+</html>
