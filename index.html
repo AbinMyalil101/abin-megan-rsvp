@@ -170,7 +170,7 @@ document.getElementById("rsvpForm").addEventListener("submit", function(e) {
   submitButton.disabled = true;
   submitButton.innerText = "Submitting...";
 
-  fetch("https://script.google.com/macros/s/AKfycbwmt7ihO2ZysKccu0NtfePuci9rVkwUVikpheVyQVXuMNTMrfJjNyYLZ5plmaX0mPbXpg/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbwnIrEAkGCT9JgplhW4rad7xeJ2gMpACTkcMZsH5C0k3OyPDKCq1YY2hq_W5rGgnNEhcA/exec", {
     method: "POST",
     body: new FormData(this)
   })
